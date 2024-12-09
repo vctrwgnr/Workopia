@@ -2,19 +2,14 @@
 
 require '../helpers.php';
 
+require basePath('Router.php');
+$router = new Router();
+$routes = require basePath('routes.php');
 
-$routes = [
-    '/workopia/public/' => 'controllers/home.php',
-    '/listings' => 'controllers/listings/index.php',
-    '/listings/create' => 'controllers/listings/create.php',
-    '404' => 'controllers/error/404.php'
-];
 
 $uri = $_SERVER['REQUEST_URI'];
+$method = $_SERVER['REQUEST_METHOD'];
 inspect($uri);
+inspect($method);
 
-if (array_key_exists($uri, $routes)) {
-    require(basePath($routes[$uri]));
-} else {
-    require basePath($routes['404']);
-}
+$router->route($uri, $method);
